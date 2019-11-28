@@ -1,8 +1,5 @@
 package org.amit.learning.analytics.dao.model;
 
-import org.springframework.stereotype.Component;
-
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Order {

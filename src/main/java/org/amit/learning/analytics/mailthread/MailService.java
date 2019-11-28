@@ -1,5 +1,6 @@
 package org.amit.learning.analytics.mailthread;
 
+import org.amit.learning.analytics.dao.model.EmailData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,8 +12,11 @@ public class MailService implements Runnable {
 
     private JavaMailSender mailSender;
 
-    public MailService( JavaMailSender mailSender) {
+    private EmailData emailData;   //contains all email related data...
+
+    public MailService(JavaMailSender mailSender, EmailData emailData) {
         this.mailSender = mailSender;
+        this.emailData = emailData;
     }
 
     private static final Logger log = LoggerFactory.getLogger(MailService.class);
@@ -21,11 +25,14 @@ public class MailService implements Runnable {
     public void sendEmail(){
 
         SimpleMailMessage  message = new SimpleMailMessage();
-        message.setTo("mail.nutsbit@gmail.com");
-        message.setCc("mail.nutsbit@gmail.com");
+        message.setTo(emailData.getEmailTo());
+        message.setCc(emailData.getEmailTo());
         message.setFrom("mail.nutsbit@gmail.com");
-        message.setSubject("System Generated Email from Amit-Samanta's program - nutsbit.");
-        message.setText("Hello!!! Don't panic .. this is a system generated email.. please ignore this email..");
+        message.setSubject(emailData.getEmailSubject());
+        message.setText(emailData.getEmailTextBody());
+
+        log.info("email message:"+message.toString());
+
         mailSender.send(message);
 
         log.info("Order is dispatched email has send.. please check..");
