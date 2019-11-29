@@ -13,10 +13,10 @@ public interface OrderRepositoryDao {
             "updateByUser = #{updateByUser},updateByTimestamp = (SELECT NOW()) WHERE orderNumber = #{orderNumber} ";
 
     public final String custmerEmailData = " SELECT A.contactLastName,A.contactFirstName,A.email FROM   " +
-            "classicmodels.customers A,classicmodels.orders B WHERE A.customerNumber = B.customerNumber " +
+            " customers A, orders B WHERE A.customerNumber = B.customerNumber " +
             " AND B.orderNumber = #{orderNumber}";
 
-    public final String selectEmailSubject = "SELECT TRIM(cinfig_param) FROM classicmodels.data_config " +
+    public final String selectEmailSubject = "SELECT TRIM(cinfig_param) FROM  data_config " +
             "WHERE config_id = 'MLSUBJ' AND active_ind = 'Y' ";
 
 
