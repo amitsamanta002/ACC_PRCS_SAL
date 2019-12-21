@@ -1,4 +1,4 @@
-# Order Management System for small ecomm org. 
+# Account Management System for small ecomm org. 
 Technology and Resources : 
   1. Spring Boot for Microservices.
   2. Gradle for project Management.
