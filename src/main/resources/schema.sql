@@ -7916,3 +7916,39 @@ CREATE TABLE classicmodels.data_config(
   `update_time`   timestamp,
   PRIMARY KEY (`config_id`)
 )
+
+CREATE TABLE IF NOT EXISTS classicmodels.cust_transaction(
+    transactionId TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    customerNumber INT,
+    transactionType CHAR(02),
+    transactionAmount DOUBLE,
+    transactionSource CHAR(05),
+    transactionStatus CHAR(10),
+    PRIMARY KEY(transactionId,customerNumber),
+    FOREIGN KEY(customerNumber)
+            REFERENCES classicmodels.customers(customerNumber)
+)
+
+DROP TABLE classicmodels.cust_account
+
+CREATE TABLE IF NOT EXISTS classicmodels.cust_account(
+    customerNumber INT,
+    accountNumber  INT,
+    accountCatgorie CHAR(10),
+    currentBalance  DOUBLE,
+    createTimestamp TIMESTAMP,
+    PRIMARY KEY(customerNumber,accountNumber,accountCatgorie),
+    FOREIGN KEY(customerNumber)
+            REFERENCES classicmodels.customers(customerNumber)
+)
+
+CREATE TABLE IF NOT EXISTS classicmodels.cust_creditcard(
+    customerNumber INT,
+    creditcardNumber  INT,
+    currentLimit DOUBLE,
+    maxLimit  DOUBLE,
+    createTimestamp TIMESTAMP,
+    PRIMARY KEY(customerNumber,creditcardNumber),
+    FOREIGN KEY(customerNumber)
+            REFERENCES classicmodels.customers(customerNumber)
+)

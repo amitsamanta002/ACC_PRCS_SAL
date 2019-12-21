@@ -1,25 +1,56 @@
 package org.amit.learning.analytics.dao.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
+
 @Component
-public class Customer {
-    private int customerNumber;
-    private String customerLastName,customerFirstName,phone,addressLine1,addressLine2,
-            city,state,postalCode,country;
-    private double creditLimit;
+
+public class CustomerInfo {
+
+    @JsonBackReference
+    @JsonProperty(value = "customerLastName")
+    private String customerLastName;
+
+    @JsonBackReference
+    @JsonProperty(value = "customerFirstName")
+    private String customerFirstName;
+
+    @JsonBackReference
+    @JsonProperty(value = "phone")
+    private String phone;
+
+    @JsonBackReference
+    @JsonProperty(value = "addressLine1")
+    private String addressLine1;
+
+    @JsonBackReference
+    @JsonProperty(value = "addressLine1")
+    private String addressLine2;
+
+    @JsonBackReference
+    @JsonProperty(value = "city")
+    private String city;
+
+    @JsonBackReference
+    @JsonProperty(value = "state")
+    private String state;
+
+    @JsonBackReference
+    @JsonProperty(value = "postalCode")
+    private String postalCode;
+
+    @JsonBackReference
+    @JsonProperty(value = "country")
+    private String country;
+
+    @JsonBackReference
+    @JsonProperty(value = "email")
     private String email;
 
-    public Customer() {
-        this.customerNumber = customerNumber;
-    }
+    public CustomerInfo() {
 
-    public int getCustomerNumber() {
-        return customerNumber;
-    }
-
-    public void setCustomerNumber(int customerNumber) {
-        this.customerNumber = customerNumber;
     }
 
     public String getContactLastName() {
@@ -94,14 +125,6 @@ public class Customer {
         this.country = country;
     }
 
-    public double getCreditLimit() {
-        return creditLimit;
-    }
-
-    public void setCreditLimit(double creditLimit) {
-        this.creditLimit = creditLimit;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -113,9 +136,8 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "customerNumber=" + customerNumber +
-                ", contactLastName='" + customerLastName + '\'' +
-                ", contactFirstName='" + customerFirstName + '\'' +
+                "  customerLastName='" + customerLastName + '\'' +
+                ", customerFirstName='" + customerFirstName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", addressLine1='" + addressLine1 + '\'' +
                 ", addressLine2='" + addressLine2 + '\'' +
@@ -123,7 +145,6 @@ public class Customer {
                 ", state='" + state + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 ", country='" + country + '\'' +
-                ", creditLimit=" + creditLimit +
                 ", email='" + email + '\'' +
                 '}';
     }
