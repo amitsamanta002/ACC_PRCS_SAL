@@ -48,3 +48,12 @@ CREATE TABLE IF NOT EXISTS APS.CUST_CREDITCARD(
     FOREIGN KEY(customerNumber) 
             REFERENCES classicmodels.customers(customerNumber)
 )
+
+call APS.UPDATE_CUST_DETL();
+
+select CONCAT(customerLastName, ' ', customerFirstName) as customerName from APS.CUST_DETL
+
+SELECT * FROM APS.CUST_DETL
+
+DELETE FROM APS.CUST_DETL
+ WHERE customerLastName IS NULL;

@@ -22,6 +22,7 @@ public class CustmerController {
     private ICustomersService iCustomersService;
 
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/inventory/customers")
     public List<Customer> CustomerDetails(@RequestParam(value = "city",required = false) String city,
                                           @RequestParam(value = "state",required = false)String state,
@@ -32,6 +33,7 @@ public class CustmerController {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/inventory/test")
     public TestResponse TestClass(){
         TestResponse testResponse = new TestResponse();
@@ -42,6 +44,7 @@ public class CustmerController {
         return testResponse;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/inventory/customer/search")
     public List<AccountInfo> CustomerSeachAutoComplete(){
 
@@ -50,6 +53,7 @@ public class CustmerController {
         return iCustomersService.getCustomerNameandIDFromDB();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping("/inventory/customer/data/{customerNumber}")
     public Customer getCustomerDetailsByID(@PathVariable("customerNumber") int customerNumber){
         if(customerNumber <= 0)
