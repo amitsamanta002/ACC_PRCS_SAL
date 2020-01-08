@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS APS.CUST_DETL(
     PRIMARY KEY(customerNumber)
 );
 
+DROP TABLE APS.CUST_TRAN;
 CREATE TABLE IF NOT EXISTS APS.CUST_TRAN(
     transactionId TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     customerNumber INT, 
@@ -24,8 +25,10 @@ CREATE TABLE IF NOT EXISTS APS.CUST_TRAN(
     transactionStatus CHAR(10),
     PRIMARY KEY(transactionId,customerNumber),
     FOREIGN KEY(customerNumber) 
-            REFERENCES classicmodels.customers(customerNumber)
-)
+            REFERENCES APS.CUST_DETL(customerNumber)
+);
+
+DROP TABLE APS.CUST_ACCOUNT;
 
 CREATE TABLE IF NOT EXISTS APS.CUST_ACCOUNT(
     customerNumber INT, 
@@ -35,9 +38,11 @@ CREATE TABLE IF NOT EXISTS APS.CUST_ACCOUNT(
     createTimestamp TIMESTAMP,
     PRIMARY KEY(customerNumber,accountNumber,accountCatgorie),
     FOREIGN KEY(customerNumber) 
-            REFERENCES classicmodels.customers(customerNumber)
+            REFERENCES APS.CUST_DETL(customerNumber)
 )
 ;
+DROP TABLE APS.CUST_CREDITCARD;
+
 CREATE TABLE IF NOT EXISTS APS.CUST_CREDITCARD(
     customerNumber INT, 
     creditcardNumber  INT, 
@@ -46,10 +51,11 @@ CREATE TABLE IF NOT EXISTS APS.CUST_CREDITCARD(
     createTimestamp TIMESTAMP,
     PRIMARY KEY(customerNumber,creditcardNumber),
     FOREIGN KEY(customerNumber) 
-            REFERENCES classicmodels.customers(customerNumber)
+            REFERENCES APS.CUST_DETL(customerNumber)
 )
 
 call APS.UPDATE_CUST_DETL();
+call APS.UPDATE_CUST_ACCOUNT();
 
 select CONCAT(customerLastName, ' ', customerFirstName) as customerName from APS.CUST_DETL
 

@@ -1,6 +1,7 @@
 package org.amit.learning.analytics.dao.mapper;
 
 import org.amit.learning.analytics.dao.model.EmailData;
+import org.amit.learning.analytics.dao.model.PayeeDetail;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,10 @@ public interface OrderRepositoryDao {
     public final String selectEmailSubject = "SELECT TRIM(cinfig_param) FROM  data_config " +
             "WHERE config_id = 'MLSUBJ' AND active_ind = 'Y' ";
 
-
+    public final String selectToAccountDetail = "SELECT A.customerLastName,A.customerFirstName,A.addressLine1,A.addressLine2,A.city,A.state,A.postalCode,A.country " +
+            " FROM APS.CUST_DETL A, APS.CUST_ACCOUNT B  " +
+            " WHERE A.customerNumber = B.customerNumber " +
+            "  AND B.accountNumber = #{accountNumber}";
 //All query annotation starts from here...
 
 
@@ -41,6 +45,7 @@ public interface OrderRepositoryDao {
     @Select(selectEmailSubject)
     public String getSelectEmailSubject();
 
-
+    @Select(selectToAccountDetail)
+    public PayeeDetail getPayeeInformationfromDB(@Param("accountNumber") int accountNumber);
 
 }

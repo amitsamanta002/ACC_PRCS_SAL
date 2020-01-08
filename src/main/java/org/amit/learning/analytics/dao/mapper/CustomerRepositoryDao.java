@@ -1,8 +1,6 @@
 package org.amit.learning.analytics.dao.mapper;
 
-import org.amit.learning.analytics.dao.model.Customer;
-import org.amit.learning.analytics.dao.model.AccountInfo;
-import org.amit.learning.analytics.dao.model.CustomerInfo;
+import org.amit.learning.analytics.dao.model.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -28,6 +26,15 @@ public interface CustomerRepositoryDao {
             "                       ( #{customerLastName},#{customerFirstName},#{phone},#{addressLine1},#{addressLine2},#{city},#{state}, " +
             "                         #{postalCode},#{country},#{email})";
 
+    public String accountbyId = "SELECT customerNumber, accountNumber,accountCatgorie,currentBalance,createTimestamp " +
+            "FROM APS.CUST_ACCOUNT where customerNumber = #{customerNumber} ";
+
+
+    public final String payeeinfobyId = "SELECT A.customerLastName,A.customerFirstName,A.addressLine1,A.addressLine2,A.city,A.state,A.postalCode,A.country " +
+            " FROM APS.CUST_DETL A, APS.CUST_ACCOUNT B  " +
+            "WHERE A.customerNumber = B.customerNumber " +
+            "  AND B.accountNumber = #{accountNumber}";
+
     @Select(customerDetails)
     public List<Customer> getAllCustomerDetails();
 
@@ -46,5 +53,11 @@ public interface CustomerRepositoryDao {
     @Options(useGeneratedKeys = false)
     public int addCustomer(CustomerInfo customerInfo);
 
+
+    @Select(accountbyId)
+    public AccountDetails getAccountDetailsbyID(@Param("customerNumber") int customerNumber);
+
+    @Select(payeeinfobyId)
+    public PayeeDetail getPayeeInformationFromDB(@Param("accountNumber") int accountNumber);
 
 }

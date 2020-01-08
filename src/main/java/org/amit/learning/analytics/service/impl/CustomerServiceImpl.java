@@ -1,9 +1,8 @@
 package org.amit.learning.analytics.service.impl;
 
 import org.amit.learning.analytics.dao.mapper.CustomerRepositoryDao;
-import org.amit.learning.analytics.dao.model.Customer;
-import org.amit.learning.analytics.dao.model.AccountInfo;
-import org.amit.learning.analytics.dao.model.CustomerInfo;
+import org.amit.learning.analytics.dao.model.*;
+import org.amit.learning.analytics.model.PayeeInformation;
 import org.amit.learning.analytics.model.RequestCustomerInfo;
 import org.amit.learning.analytics.service.ICustomersService;
 import org.amit.learning.analytics.service.ProcessKey;
@@ -26,6 +25,9 @@ public class CustomerServiceImpl implements ICustomersService {
 
     @Autowired
     private CustomerInfo customerInfo;
+
+    @Autowired
+    private PayeeInformation payeeInformation;
 
     @Override
     public List<Customer> getCustomerListbyRequest(String city,String state, String postalCode,String country) {
@@ -118,6 +120,37 @@ public class CustomerServiceImpl implements ICustomersService {
             logger.info("No customer records found on DB for customer id = "+customerNumber);
 
         return customer;
+    }
+
+    @Override
+    public AccountDetails getCustomerAccountInfomationbyId(int customerNumber) {
+        AccountDetails accountDet =  customerRepositoryDao.getAccountDetailsbyID(customerNumber);
+        logger.info(accountDet.toString());
+        return accountDet;
+    }
+
+    @Override
+    public PayeeInformation getPayeeInformation(int accountNumber) throws RuntimeException {
+        PayeeDetail payeeDetail = new PayeeDetail();
+
+        payeeDetail = customerRepositoryDao.getPayeeInformationFromDB(accountNumber);
+
+        if(payeeDetail == null) {
+            logger.error("Calling to DB fail for Payee information");
+            throw new NullPointerException("DB data not found for this account");
+        }else{
+            payeeInformation.setToAccountNumber(accountNumber);
+            payeeInformation.setToAccountName(payeeDetail.getCustomerFirstName()
+                                        + " " + payeeDetail.getCustomerLastName());
+            payeeInformation.setToAddressLine1(payeeDetail.getAddressLine1());
+            payeeInformation.setToAddressLine2(payeeDetail.getAddressLine2());
+            payeeInformation.setToCity(payeeDetail.getCity());
+            payeeInformation.setToCountry(payeeDetail.getCountry());
+            payeeInformation.setToPostalCode(payeeDetail.getPostalCode());
+            payeeInformation.setToState(payeeDetail.getState());
+        }
+
+        return payeeInformation;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package org.amit.learning.analytics.controller;
 
+import org.amit.learning.analytics.dao.model.AccountDetails;
 import org.amit.learning.analytics.dao.model.Customer;
 import org.amit.learning.analytics.dao.model.AccountInfo;
 import org.amit.learning.analytics.dao.model.CustomerInfo;
+import org.amit.learning.analytics.exception.BadDataInput;
+import org.amit.learning.analytics.model.PayeeInformation;
 import org.amit.learning.analytics.model.RequestCustomerInfo;
 import org.amit.learning.analytics.model.TestResponse;
 import org.amit.learning.analytics.service.ICustomersService;
@@ -69,5 +72,26 @@ public class CustmerController {
         logger.info("incoming message: "+requestCustomerInfo.toString());
 
         return iCustomersService.addnewCustomer(requestCustomerInfo);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping("/inventory/customer/accountinfo/{customerNumber}")
+    public AccountDetails getAccountDetailsByCustomerNumber(@PathVariable("customerNumber") int customerNumber){
+        if(customerNumber <= 0)
+            logger.info("incorrect customet number for accoutn search.");
+
+        return iCustomersService.getCustomerAccountInfomationbyId(customerNumber);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping("/inventory/customer/toaccountinfo/{accountNumber}")
+    public PayeeInformation getPayeeInformation(@PathVariable("accountNumber") int accountNumber) throws Exception {
+        logger.info("Details fetch for account number="+accountNumber);
+        if(accountNumber <= 0){
+            logger.error("Incorrect Account number.. please correct the account number then consume the service");
+            throw new BadDataInput("Bad Data is coming from request.");
+        }
+
+        return iCustomersService.getPayeeInformation(accountNumber);
     }
 }
